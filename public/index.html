@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedimFotos - Otimizador de Imagens</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖼️ RedimFotos</h1>
+            <p class="subtitle">Otimize e redimensione suas imagens de forma rápida e simples</p>
+        </header>
+
+        <main>
+            <!-- Área de Upload -->
+            <div class="upload-section">
+                <div id="dropZone" class="drop-zone">
+                    <div class="drop-zone-content">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <h2>Arraste e solte suas imagens aqui</h2>
+                        <p>ou clique para selecionar</p>
+                        <input type="file" id="fileInput" multiple accept="image/*">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview de Imagens -->
+            <div id="previewSection" class="preview-section" style="display: none;">
+                <h3>Imagens selecionadas:</h3>
+                <div id="imagePreview" class="image-preview"></div>
+                <button id="clearBtn" class="btn btn-secondary">Limpar seleção</button>
+            </div>
+
+            <!-- Opções de Configuração -->
+            <div class="options-section">
+                <h3>⚙️ Opções de Processamento</h3>
+                
+                <div class="form-group">
+                    <label for="sizePreset">Tamanho:</label>
+                    <select id="sizePreset" class="form-control">
+                        <option value="custom">Personalizado</option>
+                        <option value="150x150">Thumbnail (150x150)</option>
+                        <option value="400x400">Pequeno (400x400)</option>
+                        <option value="800x800">Médio (800x800)</option>
+                        <option value="1200x1200">Grande (1200x1200)</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customWidth">Largura (px):</label>
+                        <input type="number" id="customWidth" class="form-control" placeholder="Largura">
+                    </div>
+                    <div class="form-group">
+                        <label for="customHeight">Altura (px):</label>
+                        <input type="number" id="customHeight" class="form-control" placeholder="Altura">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="format">Formato de saída:</label>
+                    <select id="format" class="form-control">
+                        <option value="original">Original</option>
+                        <option value="jpeg">JPG (maior compatibilidade)</option>
+                        <option value="png">PNG (melhor qualidade)</option>
+                        <option value="webp">WebP (melhor compressão)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quality">Qualidade: <span id="qualityValue">80</span>%</label>
+                    <input type="range" id="quality" min="1" max="100" value="80" class="slider">
+                    <div class="range-labels">
+                        <span>Menor (ficheiros menores)</span>
+                        <span>Maior (melhor qualidade)</span>
+                    </div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="maintainAspectRatio" checked>
+                        Manter proporção original
+                    </label>
+                </div>
+
+                <button id="processBtn" class="btn btn-primary">🚀 Processar Imagens</button>
+            </div>
+
+            <!-- Área de Progresso -->
+            <div id="progressSection" class="progress-section" style="display: none;">
+                <h3>Processando...</h3>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <p id="progressText">0%</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>RedimFotos v1.0 - Otimize suas imagens em segundos</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
