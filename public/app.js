@@ -187,7 +187,6 @@ function compressImage(file) {
 }
 
 function addOptionsAndSend(formData) {
-
     // Adicionar opções
     const width = sizePreset.value === 'custom' ? customWidth.value : sizePreset.value.split('x')[0];
     const height = sizePreset.value === 'custom' ? customHeight.value : sizePreset.value.split('x')[1];
@@ -197,7 +196,6 @@ function addOptionsAndSend(formData) {
     formData.append('quality', quality.value);
     formData.append('format', format.value);
     formData.append('maintainAspectRatio', maintainAspectRatio.checked);
-}
 
     // Simular progresso
     let progress = 0;
