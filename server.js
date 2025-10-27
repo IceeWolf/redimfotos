@@ -11,7 +11,10 @@ const PORT = process.env.PORT || 3002;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+
+// Aumentar limite de payload
+app.use(express.json({ limit: '200mb' }));
+app.use(express.urlencoded({ limit: '200mb', extended: true, parameterLimit: 50000 }));
 
 // Middleware para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -27,7 +30,8 @@ const storage = multer.memoryStorage();
 const upload = multer({ 
   storage: storage,
   limits: {
-    fileSize: 10 * 1024 * 1024 // Limite de 10MB por arquivo
+    fileSize: 50 * 1024 * 1024, // Limite de 50MB por arquivo
+    files: 50 // Máximo de 50 arquivos
   }
 });
 
