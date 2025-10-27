@@ -13,8 +13,8 @@ const PORT = process.env.PORT || 3002;
 app.use(cors());
 app.use(express.json());
 
-// Servir arquivos estáticos
-app.use(express.static('public'));
+// Middleware para servir arquivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Rota para index.html
 app.get('/', (req, res) => {
