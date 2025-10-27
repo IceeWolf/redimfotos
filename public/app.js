@@ -128,12 +128,65 @@ function processImages() {
     progressFill.style.width = '0%';
     progressText.textContent = '0%';
 
+    // Comprimir imagens antes de enviar
+    compressAndSend();
+}
+
+async function compressAndSend() {
     const formData = new FormData();
     
-    // Adicionar arquivos
-    selectedFiles.forEach(file => {
-        formData.append('images', file);
+    // Comprimir cada imagem
+    for (const file of selectedFiles) {
+        try {
+            const compressedFile = await compressImage(file);
+            formData.append('images', compressedFile, file.name);
+        } catch (error) {
+            console.error('Erro ao comprimir:', file.name, error);
+            formData.append('images', file); // Usar original se falhar
+        }
+    }
+    
+    addOptionsAndSend(formData);
+}
+
+function compressImage(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = () => {
+                // Calcular novas dimensões (máximo 1920px)
+                let { width, height } = img;
+                const maxDim = 1920;
+                if (width > maxDim || height > maxDim) {
+                    const ratio = Math.min(maxDim / width, maxDim / height);
+                    width = width * ratio;
+                    height = height * ratio;
+                }
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        resolve(blob);
+                    } else {
+                        reject(new Error('Falha ao comprimir'));
+                    }
+                }, 'image/jpeg', 0.85);
+            };
+            img.onerror = reject;
+        };
+        reader.onerror = reject;
     });
+}
+
+function addOptionsAndSend(formData) {
 
     // Adicionar opções
     const width = sizePreset.value === 'custom' ? customWidth.value : sizePreset.value.split('x')[0];
@@ -144,6 +197,7 @@ function processImages() {
     formData.append('quality', quality.value);
     formData.append('format', format.value);
     formData.append('maintainAspectRatio', maintainAspectRatio.checked);
+}
 
     // Simular progresso
     let progress = 0;
