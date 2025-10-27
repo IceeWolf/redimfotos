@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 3002;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Servir arquivos estáticos
 app.use(express.static('public'));
 
 // Configurar multer para armazenar em memória (melhor para serverless)
