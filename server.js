@@ -16,6 +16,11 @@ app.use(express.json());
 // Servir arquivos estáticos
 app.use(express.static('public'));
 
+// Rota para index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Configurar multer para armazenar em memória (melhor para serverless)
 const storage = multer.memoryStorage();
 
